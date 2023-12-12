@@ -41,7 +41,7 @@
             创建时间:<input type="text" id="createTime">&emsp;
             更新时间:<input type="text" id="updateTime">&emsp;
         </div>
-        <button type="button" class="btn btn-primary" id="addbtn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <button type="button" id="addbtn" class="btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
             添加
         </button>
         <table class="table table-bordered border-primary" id="table-lis">
@@ -76,13 +76,13 @@
                     类型:<input type="text" id="type">
                     年份:<input type="text" id="year">
                     颜色:<input type="text" id="color">
-                    图片:<input type="text" id="img">
+                    <!-- 图片:<input type="text" id="img"> -->
                     创建时间:<input type="text" id="createTime">
                     更新时间:<input type="text" id="updateTime">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" id="baocun">保存</button>
+                    <button type="button" class="btn btn-primary" id="baocuen">保存</button>
                 </div>
             </div>
         </div>
@@ -102,7 +102,7 @@
                     类型:<input type="text" id="type">
                     年份:<input type="text" id="year">
                     颜色:<input type="text" id="color">
-                    图片:<input type="text" id="img">
+                    <!-- 图片:<input type="text" id="img"> -->
                     创建时间:<input type="text" id="createTime">
                     更新时间:<input type="text" id="updateTime">
                 </div>
@@ -141,15 +141,15 @@
         $(function () {
             renderTable()
         })
-        // 添加
-        $('#addbtn').click(function () {
+        $("#baocuen").on("click", function () {
+            console.log(123);
             let id = $('#id').val()
             let idcard = $('#idcard').val()
             let name = $('#name').val()
             let type = $('#type').val()
             let year = $('#year').val()
             let author = $('#color').val()
-            let img = $('#img').val()
+            // let img = $('#img').val()
             let createTime = $('#createTime').val()
             let updateTime = $('#updateTime').val()
             let data = {
@@ -159,45 +159,77 @@
                 type,
                 year,
                 color,
-                img,
+                // img,
                 createTime,
                 updateTime,
             }
             $.ajax({
-                url: 'http://127.0.0.1:3000/api/user' + '/addCat',
+                url: 'http://127.0.0.1:3000/api/user' + '/add',
                 type: 'POST',
                 data: JSON.stringify(data),
                 dataType: "JSON",
                 success: function (res) {
                     alert('添加成功')
                     renderTable()
+                    $('#exampleModal').baocuen('hide')
                 }
             })
         })
+        // 添加
+        // $('.addbtn').click(function () {
+        //     let id = $('#id').val()
+        //     let idcard = $('#idcard').val()
+        //     let name = $('#name').val()
+        //     let type = $('#type').val()
+        //     let year = $('#year').val()
+        //     let author = $('#color').val()
+        //     // let img = $('#img').val()
+        //     let createTime = $('#createTime').val()
+        //     let updateTime = $('#updateTime').val()
+        //     let data = {
+        //         id,
+        //         idcard,
+        //         name,
+        //         type,
+        //         year,
+        //         color,
+        //         img,
+        //         createTime,
+        //         updateTime,
+        //     }
+        //     $.ajax({
+        //         url: 'http://127.0.0.1:3000/api/user' + '/add',
+        //         type: 'POST',
+        //         data: JSON.stringify(data),
+        //         dataType: "JSON",
+        //         success: function (res) {
+        //             alert('添加成功')
+        //             renderTable()
+        //             $('#exampleModal').baocuen('hide')
+        //         }
+        //     })
+        // })
         // 保存
-        $('#baocun').click(function () {
-            let id = $('#id').val()
-            let idcard = $('#idcard').val()
-            let name = $('#name').val()
-            let type = $('#type').val()
-            let year = $('#year').val()
-            let color = $('#color').val()
-            let img = $('#img').val()
-            let createTime = $('#createTime').val()
-            let updateTime = $('#updateTime').val()
-            let item = date.find(item => item.id === id);
-            item.id = $('#id').val()
-            item.idcard = $('#idcard').val()
-            item.name = $('#name').val()
-            item.type = $('#type').val()
-            item.year = $('#year').val()
-            item.color = $('#color').val()
-            item.img = $('#img').val()
-            item.createTime = $('#createTime').val()
-            item.updateTime = $('#updateTime').val()
-            renderTable();
-            $('#baocun').hide();
-        })
+        // $('#baocun').click(function () {
+        //     let idcard = $('#idcard').val()
+        //     let name = $('#name').val()
+        //     let type = $('#type').val()
+        //     let year = $('#year').val()
+        //     let color = $('#color').val()
+        //     let img = $('#img').val()
+        //     let createTime = $('#createTime').val()
+        //     let updateTime = $('#updateTime').val()
+        //     let item = date.find(item => item.id === id);
+        //     item.name = $('#name').val()
+        //     item.type = $('#type').val()
+        //     item.year = $('#year').val()
+        //     item.color = $('#color').val()
+        //     item.img = $('#img').val()
+        //     item.createTime = $('#createTime').val()
+        //     item.updateTime = $('#updateTime').val()
+        //     renderTable();
+        //     $('#baocun').hide();
+        // })
         // 修改
         $('tbody').on('click', '.edit', function () {
             $(id) = $(this).data('id')
@@ -226,13 +258,12 @@
                     description: description,
                 }
                 $.ajax({
-                    url: 'http://127.0.0.1:3000/api/user' + `/addCat?id=${id}`,
+                    url: 'http://127.0.0.1:3000/api/user' + `/add?id=${id}`,
                     type: 'PUT',
                     data: data,
                     dataType: "JSON",
                     success: function (res) {
                         alert('修改成功');
-                        gestSongs()
                         renderTable()
                     }
                 })

@@ -4,32 +4,23 @@ var path = require('path');
 const fs = require('fs');
 // var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
-// var indexRouter = require('./routes/index');
+var carRouter = require('./routes/car');
+// 处理请求参数
+var bodyParser = require('body-parser');
 // var usersRouter = require('./routes/users');
-var allPouter = require('./routes/catlist');
 
 var app = express();
-app.all("*", function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With,Content-Type,Authorization,token"
-  );
-  res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-  res.header("Content-Type", "application/json;charset=utf-8");
-  next();
-});
+app.use(bodyParser.urlencoded({ extended: false }));
 // view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api', allPouter);
+app.use('/api', carRouter);
 // app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
@@ -49,13 +40,3 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
-function catlist() {
-  // 读取文件
-  let data = fs.readFileSync(path.join(__dirname, './data/catlist.json'), 'utf-8')
-  // console.log(JSON.parse(data).list);
-  return data
-}
-function deleteCat() {
-}
-function catDetail() {
-}
